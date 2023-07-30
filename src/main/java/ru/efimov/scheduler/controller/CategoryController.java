@@ -1,10 +1,12 @@
 package ru.efimov.scheduler.controller;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.efimov.scheduler.entity.Category;
 import ru.efimov.scheduler.repository.CategoryRepository;
+import ru.efimov.scheduler.search.CategorySearchValues;
 
 import java.util.List;
 
@@ -13,6 +15,7 @@ import static java.util.Objects.isNull;
 
 @RestController
 @RequestMapping("/category")
+@Log4j2
 public class CategoryController {
 
     private final CategoryRepository categoryRepository;
@@ -24,6 +27,7 @@ public class CategoryController {
 
     @GetMapping("/all")
     public List<Category> findAll() {
+        log.info("CategoryController: findAll()-------------------------------------");
         return categoryRepository.findAllByOrderByTitleAsc();
     }
 
@@ -56,4 +60,9 @@ public class CategoryController {
         return ResponseEntity.ok(categoryRepository.save(category));
     }
 
+    @PostMapping("/search")
+    public ResponseEntity<List<Category>> search(@RequestBody CategorySearchValues categorySearchValues) {
+        log.info("CategoryController: search(" + categorySearchValues.getText() + ")-------------------------------------");
+        return ResponseEntity.ok(categoryRepository.findByTitle(categorySearchValues.getText()));
+    }
 }

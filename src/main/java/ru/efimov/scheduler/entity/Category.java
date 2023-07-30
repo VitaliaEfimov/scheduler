@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @NoArgsConstructor
 @Setter
 @EqualsAndHashCode
+@ToString
 public class Category {
     private Long id;
     private String title;
